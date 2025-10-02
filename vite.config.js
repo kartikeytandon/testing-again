@@ -2,6 +2,13 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 
 export default defineConfig({
+    server: {
+        https: false,
+    },
+    build: {
+        outDir: 'public/build',
+        assetsDir: 'assets',
+    },
     plugins: [
         laravel({
             input: [

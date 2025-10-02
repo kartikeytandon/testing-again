@@ -56,7 +56,7 @@ COPY .docker/apache/000-default.conf /etc/apache2/sites-available/000-default.co
 RUN echo "APP_NAME=\"CRM Module\"" > .env \
     && echo "APP_ENV=production" >> .env \
     && echo "APP_DEBUG=false" >> .env \
-    && echo "APP_URL=http://localhost" >> .env \
+    && echo "APP_URL=https://testing-again-1.onrender.com" >> .env \
     && echo "APP_KEY=base64:$(openssl rand -base64 32)" >> .env \
     && echo "DB_CONNECTION=pgsql" >> .env \
     && echo "CACHE_DRIVER=file" >> .env \
