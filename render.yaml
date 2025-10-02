@@ -12,6 +12,8 @@ services:
         value: production
       - key: APP_DEBUG
         value: false
+      - key: APP_URL
+        value: https://testing-again-1.onrender.com
       - key: LOG_CHANNEL
         value: stack
       - key: DB_CONNECTION

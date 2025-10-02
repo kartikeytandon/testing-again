@@ -62,12 +62,19 @@ RUN echo "APP_NAME=\"CRM Module\"" > .env \
     && echo "CACHE_DRIVER=file" >> .env \
     && echo "SESSION_DRIVER=file" >> .env \
     && echo "QUEUE_CONNECTION=sync" >> .env \
+    && php artisan config:clear \
     && php artisan config:cache \
+    && php artisan route:clear \
     && php artisan route:cache \
+    && php artisan view:clear \
     && php artisan view:cache
+
+# Copy and make startup script executable
+COPY start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
 
 # Expose port 80
 EXPOSE 80
 
-# Start Apache
-CMD ["apache2-foreground"]
+# Start Apache using our custom script
+CMD ["/usr/local/bin/start.sh"]
