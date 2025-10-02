@@ -53,7 +53,7 @@ RUN a2enmod rewrite
 COPY .docker/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
 
 # Create .env file and generate application key
-RUN echo "APP_NAME=CRM Module" > .env \
+RUN echo "APP_NAME=\"CRM Module\"" > .env \
     && echo "APP_ENV=production" >> .env \
     && echo "APP_DEBUG=false" >> .env \
     && echo "APP_URL=http://localhost" >> .env \
