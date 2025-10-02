@@ -1,14 +1,10 @@
 services:
   - type: web
     name: crm-module
-    env: static
+    env: docker
     region: oregon
     plan: free
-    buildCommand: |
-      composer install --no-dev --optimize-autoloader
-      npm install
-      npm run build
-    staticPublishPath: ./public
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: APP_NAME
         value: CRM Module
