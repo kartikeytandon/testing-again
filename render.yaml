@@ -1,14 +1,14 @@
 services:
   - type: web
     name: crm-module
-    env: php
+    env: static
     region: oregon
     plan: free
     buildCommand: |
       composer install --no-dev --optimize-autoloader
       npm install
       npm run build
-    startCommand: vendor/bin/heroku-php-apache2 public/
+    staticPublishPath: ./public
     envVars:
       - key: APP_NAME
         value: CRM Module
