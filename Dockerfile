@@ -57,7 +57,7 @@ RUN chown -R www-data:www-data /var/www/html \
 RUN a2enmod rewrite
 COPY .docker/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
 
-# Create basic .env file (will be overwritten by start.sh)
+# Create complete .env file with SQLite configuration
 RUN echo "APP_NAME=\"CRM Module\"" > .env \
     && echo "APP_ENV=production" >> .env \
     && echo "APP_DEBUG=false" >> .env \
@@ -67,7 +67,28 @@ RUN echo "APP_NAME=\"CRM Module\"" > .env \
     && echo "DB_DATABASE=database/database.sqlite" >> .env \
     && echo "CACHE_DRIVER=file" >> .env \
     && echo "SESSION_DRIVER=file" >> .env \
-    && echo "QUEUE_CONNECTION=sync" >> .env
+    && echo "QUEUE_CONNECTION=sync" >> .env \
+    && echo "MAIL_MAILER=smtp" >> .env \
+    && echo "MAIL_HOST=localhost" >> .env \
+    && echo "MAIL_PORT=1025" >> .env \
+    && echo "MAIL_USERNAME=null" >> .env \
+    && echo "MAIL_PASSWORD=null" >> .env \
+    && echo "MAIL_ENCRYPTION=null" >> .env \
+    && echo "MAIL_FROM_ADDRESS=hello@example.com" >> .env \
+    && echo "MAIL_FROM_NAME=\"CRM Module\"" >> .env
+
+# Create SQLite database file
+RUN mkdir -p database && touch database/database.sqlite && chmod 666 database/database.sqlite
+
+# Clear all caches and run migrations
+RUN php artisan config:clear \
+    && php artisan route:clear \
+    && php artisan view:clear \
+    && php artisan cache:clear \
+    && php artisan migrate --force \
+    && php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache
 
 # Copy and make startup script executable
 COPY start.sh /usr/local/bin/start.sh
