@@ -9,6 +9,7 @@ export default defineConfig({
         outDir: 'public/build',
         assetsDir: 'assets',
     },
+    base: process.env.NODE_ENV === 'production' ? 'https://testing-again-1.onrender.com/' : '/',
     plugins: [
         laravel({
             input: [
