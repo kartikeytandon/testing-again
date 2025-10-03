@@ -17,7 +17,7 @@ services:
       - key: LOG_CHANNEL
         value: stack
       - key: DB_CONNECTION
-        value: pgsql
+        value: sqlite
       - key: CACHE_DRIVER
         value: file
       - key: SESSION_DRIVER

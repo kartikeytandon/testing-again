@@ -52,22 +52,17 @@ RUN chown -R www-data:www-data /var/www/html \
 RUN a2enmod rewrite
 COPY .docker/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
 
-# Create .env file with a pre-generated key
+# Create basic .env file (will be overwritten by start.sh)
 RUN echo "APP_NAME=\"CRM Module\"" > .env \
     && echo "APP_ENV=production" >> .env \
     && echo "APP_DEBUG=false" >> .env \
     && echo "APP_URL=https://testing-again-1.onrender.com" >> .env \
     && echo "APP_KEY=base64:$(openssl rand -base64 32)" >> .env \
-    && echo "DB_CONNECTION=pgsql" >> .env \
+    && echo "DB_CONNECTION=sqlite" >> .env \
+    && echo "DB_DATABASE=database/database.sqlite" >> .env \
     && echo "CACHE_DRIVER=file" >> .env \
     && echo "SESSION_DRIVER=file" >> .env \
-    && echo "QUEUE_CONNECTION=sync" >> .env \
-    && php artisan config:clear \
-    && php artisan config:cache \
-    && php artisan route:clear \
-    && php artisan route:cache \
-    && php artisan view:clear \
-    && php artisan view:cache
+    && echo "QUEUE_CONNECTION=sync" >> .env
 
 # Copy and make startup script executable
 COPY start.sh /usr/local/bin/start.sh
