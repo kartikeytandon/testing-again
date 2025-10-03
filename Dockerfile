@@ -80,8 +80,9 @@ RUN echo "APP_NAME=\"CRM Module\"" > .env \
 # Create SQLite database file
 RUN mkdir -p database && touch database/database.sqlite && chmod 666 database/database.sqlite
 
-# Run migrations first, then clear caches
+# Run migrations and seeders, then clear caches
 RUN php artisan migrate --force \
+    && php artisan db:seed --force \
     && php artisan config:clear \
     && php artisan route:clear \
     && php artisan view:clear \
